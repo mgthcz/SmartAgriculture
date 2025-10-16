@@ -1,0 +1,495 @@
+{% extends 'template.html' %}
+
+{% block extra_css %}
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* 重置样式 */
+        .video-page {
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 主容器 */
+        .video-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+        }
+
+        /* 标题 */
+        .video-header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .video-title {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .video-subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+
+        /* 侧边栏 */
+        .video-sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .upload-section {
+            text-align: center;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .upload-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .file-input-wrapper {
+            margin: 20px 0;
+        }
+
+        .file-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 5px;
+            background: #f8f9fa;
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .upload-btn:hover:not(:disabled) {
+            background: #2980b9;
+        }
+
+        .upload-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        /* 主内容区 */
+        .video-main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 视频对比区域 */
+        .video-comparison {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .comparison-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .videos-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .video-box {
+            flex: 1;
+            text-align: center;
+        }
+
+        .video-label {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 250px;
+            background: #000;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .video-player video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .arrow-icon {
+            font-size: 24px;
+            color: #e74c3c;
+        }
+
+        /* 结果区域 */
+        .results-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .advice-box, .chart-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .box-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .advice-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            min-height: 180px;
+            line-height: 1.5;
+            color: #2c3e50;
+        }
+
+        #video_pyecharts {
+            width: 100%;
+            height: 200px;
+        }
+
+        /* 通知 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 占位文本 */
+        .placeholder {
+            color: #95a5a6;
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .video-container {
+                grid-template-columns: 1fr;
+            }
+
+            .videos-wrapper {
+                flex-direction: column;
+            }
+
+            .arrow-icon {
+                transform: rotate(90deg);
+            }
+
+            .results-area {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block main_body %}
+    <div class="video-page">
+        <div class="video-container">
+            <div class="video-header">
+                <h1 class="video-title">视频追踪与计数系统</h1>
+                <p class="video-subtitle">上传视频进行AI分析，识别和统计病虫害</p>
+            </div>
+
+            <!-- 侧边栏 -->
+            <div class="video-sidebar">
+                <div class="upload-section">
+                    <div class="upload-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h2 class="upload-title">上传视频</h2>
+
+                    <div class="file-input-wrapper">
+                        <input type="file" class="file-input" id="file0" accept="video/*">
+                    </div>
+
+                    <button class="upload-btn" id="video_uploadButton" disabled>
+                        <i class="fas fa-play"></i> 开始分析
+                    </button>
+                </div>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="video-main">
+                <!-- 视频对比 -->
+                <div class="video-comparison">
+                    <h2 class="comparison-title">视频处理对比</h2>
+                    <div class="videos-wrapper">
+                        <div class="video-box">
+                            <div class="video-label">原始视频</div>
+                            <div class="video-player">
+                                <video id="video0" controls></video>
+                            </div>
+                        </div>
+
+                        <div class="arrow-icon">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+
+                        <div class="video-box">
+                            <div class="video-label">分析结果</div>
+                            <div class="video-player">
+                                <video id="processedVideo" controls></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 结果区域 -->
+                <div class="results-area">
+                    <div class="advice-box">
+                        <h3 class="box-title">
+                            <i class="fas fa-comment-medical"></i>
+                            专家建议
+                        </h3>
+                        <div class="advice-content" id="video_word">
+                            <div class="placeholder">
+                                <i class="fas fa-info-circle"></i><br>
+                                上传并分析视频后，将显示专家建议
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-box">
+                        <h3 class="box-title">
+                            <i class="fas fa-chart-bar"></i>
+                            统计图表
+                        </h3>
+                        <div id="video_pyecharts"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        // 显示通知
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement("div");
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+            notification.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
+            notification.classList.add("notification");
+
+            document.body.appendChild(notification);
+
+            setTimeout(function() {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        // 初始化图表
+        function initChart() {
+            const chart = echarts.init(document.getElementById('video_pyecharts'));
+
+            // 初始空图表
+            const emptyOption = {
+                title: {
+                    text: '等待数据',
+                    textStyle: {
+                        color: '#95a5a6',
+                        fontSize: 14
+                    },
+                    left: 'center',
+                    top: 'center'
+                },
+                xAxis: {
+                    show: false
+                },
+                yAxis: {
+                    show: false
+                },
+                series: []
+            };
+
+            chart.setOption(emptyOption);
+            return chart;
+        }
+
+        // 更新图表数据
+        function updateChart(chart, data) {
+            const option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [data.legend_name]
+                },
+                xAxis: {
+                    type: 'category',
+                    data: data.x_axis_data
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    name: data.series_name,
+                    type: 'bar',
+                    data: data.series_data,
+                    itemStyle: {
+                        color: '#3498db'
+                    }
+                }]
+            };
+
+            chart.setOption(option);
+        }
+
+        // 页面加载完成后初始化
+        $(document).ready(function() {
+            // 初始化图表
+            const chart = initChart();
+
+            // 文件选择事件
+            $("#file0").change(function() {
+                const file = this.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    const base64data = event.target.result;
+
+                    // 预览视频
+                    $("#video0").attr("src", base64data);
+
+                    // 启用上传按钮
+                    $("#video_uploadButton").prop("disabled", false);
+
+                    showNotification('视频文件已选择');
+                };
+
+                reader.readAsDataURL(file);
+            });
+
+            // 上传按钮点击事件
+            $("#video_uploadButton").click(function(event) {
+                event.preventDefault();
+
+                const file = $("#file0")[0].files[0];
+                if (!file) {
+                    showNotification('请先选择视频文件', 'error');
+                    return;
+                }
+
+                // 显示处理中状态
+                $(this).html('<i class="fas fa-spinner fa-spin"></i> 处理中...');
+                $(this).prop('disabled', true);
+
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    const base64data = event.target.result;
+
+                    // 发送到后端处理
+                    $.ajax({
+                        type: 'POST',
+                        url: '/process_video/',
+                        data: {
+                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                            video_base64: base64data
+                        },
+                        success: function(response) {
+                            console.log('视频处理响应:', response);
+
+                            // 显示处理后的视频
+                            $("#processedVideo").attr("src", '/media/temp_processed_video.mp4');
+
+                            // 显示专家建议
+                            $("#video_word").html(response.tips);
+
+                            // 获取图表数据
+                            $.ajax({
+                                url: '/video_chart/',
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(chartData) {
+                                    updateChart(chart, chartData);
+                                    showNotification('视频分析完成！');
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('获取图表数据错误:', error);
+                                    showNotification('图表数据加载失败', 'error');
+                                }
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('处理视频错误:', error);
+                            showNotification('视频处理失败，请重试', 'error');
+                        },
+                        complete: function() {
+                            // 恢复按钮状态
+                            $("#video_uploadButton").html('<i class="fas fa-play"></i> 开始分析');
+                            $("#video_uploadButton").prop('disabled', false);
+                        }
+                    });
+                };
+
+                reader.readAsDataURL(file);
+                showNotification('视频上传成功，正在处理...');
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		    <style>
+		        * {
+		            margin: 0;
+		            padding: 0;
+		        }
+
+		        .photo-body {
+		            margin-right: 70px;
+		            overflow: hidden;
+		            width: 1740px;
+		            height: 1300px;
+		            /* 	background-color: #032f5c; */
+		            /* border: 5px solid blue; */
+		        }
+
+		        .photo-box {
+		            width: 100%;
+		            height: 100%;
+		        }
+
+		        /* .photo-header {
+		            width: 100%;
+		            height: 12%;
+		        } */
+
+		        .photo-main {
+		            margin-left: 45px;
+		            margin-top: 11px;
+		            width: 96%;
+		            height: 55%;
+		            display: flex;
+		            justify-content: space-between;
+		            align-items: center;
+		            background-color: white;
+		        }
+
+		        .left-photo-box {
+		            width: 45%;
+		            height: 100%;
+		            position: relative;
+		            margin-left: 40px;
+		        }
+
+		        .first-photo-box {
+		            width: 80%;
+		            height: 100%;
+		            display: flex;
+		            justify-content: center;
+		            flex-wrap: wrap;
+		        }
+
+		        .right-photo-box {
+		            width: 65%;
+		            height: 100%;
+		            display: flex;
+		            justify-content: space-around;
+		            align-content: center;
+		            flex-wrap: wrap;
+		            position: relative;
+		        }
+
+		        .second-photo-box {
+		            width: 40%;
+		            height: 60%;
+
+		        }
+
+		        .third-photo-box {
+		            width: 40%;
+		            height: 60%;
+		        }
+
+		        .photo-recom {
+		            position: absolute;
+		            justify-content: center;
+		            align-content: center;
+		            bottom: 0.5%;
+		            right: 1%;
+		            width: 110%;
+		            height: 35%;
+		            overflow-y: auto;
+		            padding: 5px;
+		            /* 添加内边距 */
+		            /* border: 1px solid #6b7da9;  */
+		            border: solid 1px white;
+		            box-shadow: 3px 3px 10px 5px white;
+		            border-radius: 10px;
+		            background-color: whitesmoke;
+
+
+		            /* 添加背景颜色 */
+		        }
+
+		        /* .photo-bottom {
+
+		            width: 100%;
+		            height: 8%;
+		        } */
+
+		        /* 	.photo-header {
+		                justify-content: center;
+
+		                align-items: center;
+
+		                display: flex;
+		                background-color: #5c7099;
+		                font-size: 50px;
+		                font-weight: bolder;
+		                color: white;
+		                text-shadow: 0px 0px 20px whitesmoke, 0px 0px 10px darkgray;
+		                letter-spacing: 80px;
+		            }
+		 */
+		        .photo-word1 {
+		            color: black;
+		            width: 80%;
+		            transform: translateX(-15px);
+		            text-align: center;
+		            margin-top: 70px;
+		            margin-bottom: 60px;
+		            font-size: 30px;
+		            font-family: Cursive;
+		        }
+
+		        .photo-v1 {
+		            margin-top: -35%;
+		            transform: translateX(-20px);
+		            width: 100%;
+		            height: 50%;
+		        {#border: 1px solid black;#}
+		        }
+
+		        .photo-word2 {
+		            color: black;
+		            width: 100%;
+		            transform: translateX(-80px);
+		            margin-top: -70px;
+		            text-align: center;
+		            font-size: 30px;
+		            font-family: Cursive;
+		        }
+
+		        .photo-c2 {
+		            margin-top: 45px;
+		            width: 360px;
+		            height: 280px;
+		            transform: translateX(-105px);
+		            border: 1px solid black;
+		        }
+
+
+		        .photo-word3 {
+		            color: black;
+		            width: 100%;
+		            margin-top: -70px;
+		            text-align: center;
+		            font-size: 30px;
+		            font-family: Cursive;
+		        }
+
+		        .photo-i3 {
+		            margin-top: 45px;
+		            width: 360px;
+		            height: 280px;
+		            transform: translateX(-45px);
+		            border: 1px solid black;
+		        }
+
+
+		        #photo-snap {
+		            transform: translateX(-20px);
+		            margin-bottom: 40px;
+		            letter-spacing: 15px;
+		            padding-left: 30px;
+		            background-color: #003366;
+		            width: 190px;
+		            height: 50px;
+		            color: white;
+		            /* 设置文字颜色为白色 */
+		            text-align: center;
+		            align-content: center;
+		            /* 设置文字居中 */
+		            text-decoration: none;
+		            /* 去掉文字下划线 */
+		            display: inline-block;
+		            /* 将按钮显示为块级元素 */
+		            font-size: 35px;
+		            /* 设置文字大小 */
+		            font-family: cursive;
+		            font-weight: bolder;
+		            border: none;
+		            /* 去掉边框 */
+		            border-radius: 5px;
+		            /* 设置圆角 */
+		            cursor: pointer;
+		            /* 设置鼠标悬停时的样式为手型 */
+		        }
+
+		        /* 按钮悬停时的样式 */
+		        #photo-snap:hover {
+		            background-color: #1f4268;
+		            /* 悬停时的背景颜色 */
+		        }
+
+
+		        .photo-arrow {
+		            position: absolute;
+		            top: 48%;
+		            left: 80%;
+		            transform: translate(-50%, -50%);
+		            width: 50px;
+		            height: 50px;
+		        }
+
+		        .photo-arrow::after {
+		            content: '';
+		            position: absolute;
+		            top: -40px;
+		            left: -245px;
+		            transform: translate(-50%, -50%) rotate(45deg);
+		            width: 17px;
+		            height: 17px;
+		            border-top: 4px solid black;
+		            border-right: 4px solid black;
+		        }
+
+
+		        .photo-ra {
+		            text-shadow: 0px 0px 20px white,
+		            0px 0px 10px snow,
+		            0px 0px 10px white;
+
+		        }
+
+		        .photo-s1 {
+		            font-size: 25px;
+		            color: black;
+		            font-weight: bolder;
+
+		        }
+
+		        .photo-s2 {
+		            font-size: 20px;
+		        }
+
+		        .photo-recom p {
+		            font-size: 23px;
+		            color: black;
+		            font-weight: bolder
+		        }
+
+		        .photo-recom div {
+		            font-size: 18px;
+		            color: black;
+		            font-weight: bolder
+		        }
+		    </style>
+	</head>
+	<body>
+		    <div class="photo-body">
+		        <div class="photo-box">
+		            <!-- <div class="photo-header">
+		                拍照检测及种类分析
+		            </div> -->
+		            <div class="photo-main">
+		                <div class="left-photo-box">
+		                    <div class="first-photo-box">
+		                        <h1 class="photo-word1">摄像头</h1>
+		                        <div class="photo-v1">
+		                            <video id="video" width="430" height="420" autoplay></video>
+		                        </div>
+		                        <button id="photo-snap">拍摄</button>
+		                    </div>
+		                </div>
+		                <div class="right-photo-box">
+		                    <div class="second-photo-box">
+		                        <h1 class="photo-word2">拍摄图片</h1>
+		                        <div class="photo-c2">
+		                            <canvas id="photo-canvas" width="360" height="280"></canvas>
+		                        </div>
+		                    </div>
+		                    <div class="photo-arrow"></div>
+		                    <div class="third-photo-box">
+		                        <h1 class="photo-word3">处理后图片</h1>
+		                        <div class="photo-i3">
+		                            <img id="result" width="360" height="280" src="" alt="Processed Image"
+		                                 style="display: none;">
+		                        </div>
+		                    </div>
+		                    <div class="photo-recom">
+		                        <div class="photo-ra">
+		                            <span class="photo-s1">
+														病虫害种类：
+		                            </span>
+		                            <span class="photo-s2" id="1111">  </span>
+		                        </div>
+		                        <br>
+		                        <p>
+		                            种类简介：
+		                        <div id="2222"></div>
+		                        </p>
+
+
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		        <!-- <div class="photo-bottom"></div> -->
+		    </div>
+	</body>
+	    <script>
+	        const video = document.getElementById('video');
+	        const canvas = document.getElementById('photo-canvas');
+	        const context = canvas.getContext('2d');
+	        const snap = document.getElementById('photo-snap');
+	        const resultImg = document.getElementById('result');
+	        let currentStream;
+
+	        // 获取摄像头设备列表
+	        function getVideoSources() {
+	            return navigator.mediaDevices.enumerateDevices()
+	                .then(devices => devices.filter(device => device.kind === 'videoinput'));
+	        }
+
+	        // 切换摄像头
+	        async function switchCamera() {
+	            const videoSources = await getVideoSources();
+	            const currentDeviceId = video.srcObject.getVideoTracks()[0].getSettings().deviceId;
+	            let nextDeviceId;
+	            for (let i = 0; i < videoSources.length; i++) {
+	                if (videoSources[i].deviceId !== currentDeviceId) {
+	                    nextDeviceId = videoSources[i].deviceId;
+	                    break;
+	                }
+	            }
+	            if (nextDeviceId) {
+	                const constraints = {
+	                    video: {
+	                        deviceId: {
+	                            exact: nextDeviceId
+	                        }
+	                    }
+	                };
+	                startCamera(constraints);
+	            } else {
+	                console.log('No other camera found');
+	            }
+	        }
+
+	        // 启动摄像头
+	        function startCamera(constraints) {
+	            if (currentStream) {
+	                currentStream.getTracks().forEach(track => {
+	                    track.stop();
+	                });
+	            }
+	            navigator.mediaDevices.getUserMedia(constraints)
+	                .then(function (stream) {
+	                    video.srcObject = stream;
+	                    video.play();
+	                    currentStream = stream;
+	                })
+	                .catch(function (err) {
+	                    console.log("An error occurred: " + err);
+	                });
+	        }
+
+	        // 双击视频区域切换摄像头
+	        video.addEventListener('dblclick', function () {
+	            switchCamera();
+	        });
+
+	        // 拍摄按钮点击事件
+	        snap.addEventListener('click', function () {
+	            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+	            canvas.toBlob(function (blob) {
+	                const formData = new FormData();
+	                formData.append('image', blob);
+
+	                const csrftoken = getCookie('csrftoken');
+
+	                fetch('/capture_and_process/', {
+	                    method: 'POST',
+	                    headers: {
+	                        'X-CSRFToken': csrftoken
+	                    },
+	                    body: formData
+	                })
+	                    .then(response => response.json())
+	                    .then(data => {
+	                        resultImg.src = 'data:image/png;base64,' + data.image;
+	                        resultImg.style.display = 'block';
+	                        var pests_names = data.pests_names
+	                        var tips = data.tips
+	                        console.log(pests_names)
+	                        console.log(tips)
+	                        // 获取要延迟显示的div元素
+	                        var mDiv = document.getElementById('1111');
+	                        mDiv.innerText = pests_names
+	                        var yDiv = document.getElementById('2222');
+	                        yDiv.innerText = tips
+	                    })
+	                    .catch(error => console.error('Error:', error));
+	            });
+	        });
+
+	        // 初始化
+	        getVideoSources()
+	            .then(videoSources => {
+	                const constraints = {
+	                    video: {
+	                        deviceId: {
+	                            exact: videoSources[0].deviceId
+	                        }
+	                    }
+	                };
+	                startCamera(constraints);
+	            });
+	    </script>
+</html>

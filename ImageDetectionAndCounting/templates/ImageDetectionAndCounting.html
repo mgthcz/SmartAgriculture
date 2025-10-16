@@ -1,0 +1,568 @@
+{% extends "template.html" %}
+
+{% block extra_css %}
+    <!-- 引入Bootstrap样式表 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #022244;
+            --secondary-color: #4CAF50;
+            --accent-color: #FF9800;
+            --light-bg: #f8fdff;
+            --dark-bg: #021c37;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+        }
+
+        .home-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+            gap: 20px;
+        }
+
+        .home-sidebar {
+            width: 300px;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #034078 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            color: var(--text-light);
+            position: sticky;
+            top: 20px;
+        }
+
+        .home-tit {
+            color: var(--text-light);
+            letter-spacing: 8px;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .home-tit::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        .home-form-control-file {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: var(--text-light);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .home-form-control-file:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .home-add {
+            text-align: center;
+            color: var(--text-light);
+            margin: 30px 0 20px;
+            font-size: 22px;
+            letter-spacing: 8px;
+            font-weight: bold;
+        }
+
+        .operation-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .operation-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .operation-option:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .operation-option input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+
+        .operation-icon {
+            margin-right: 12px;
+            font-size: 20px;
+            color: var(--secondary-color);
+        }
+
+        .operation-label {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        #home-uploadButton {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #45a049 100%);
+            color: var(--text-light);
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #home-uploadButton:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        #home-uploadButton:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .image-comparison {
+            display: flex;
+            justify-content: space-between;
+            background: var(--text-light);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            min-height: 500px;
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .image-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .image-frame {
+            width: 100%;
+            max-width: 400px;
+            height: 350px;
+            border: 3px solid var(--primary-color);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .home-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .arrow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .arrow-icon {
+            font-size: 40px;
+            color: var(--accent-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .expert-advice {
+            background: var(--text-light);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .advice-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .advice-title i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .advice-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            text-align: justify;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        /* 自定义单选按钮 */
+        input[type="radio"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            background-color: transparent;
+            position: relative;
+            cursor: pointer;
+        }
+
+        input[type="radio"]:checked {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: white;
+        }
+
+        /* 预览容器 */
+        #home-previewContainer {
+            display: none;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .preview-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .preview-frame {
+            width: 100%;
+            max-width: 300px;
+            height: 250px;
+            border: 2px dashed var(--primary-color);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            margin: 0 auto;
+        }
+
+        /* 弹框样式 */
+        .home-alert-box {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #45a049 100%);
+            color: white;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            transition: top 0.5s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .home-alert-box i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .home-show {
+            top: 30px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .home-container {
+                flex-direction: column;
+            }
+
+            .home-sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            .image-comparison {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .arrow-container {
+                position: static;
+                transform: none;
+                margin: 20px 0;
+            }
+
+            .arrow-icon {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block main_body %}
+    <div class="container-fluid">
+        <div class="home-container">
+            <!-- 侧边栏 -->
+            <div class="home-sidebar">
+                <div class="menu">
+                    <div class="home-tit">
+                        上传图片
+                    </div>
+
+                    <form id="uploadForm" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="file" class="home-form-control-file" name="image" id="imageInput"
+                                   accept="image/*">
+                        </div>
+
+                        <div>
+                            <input type="hidden" name="operation" id="operationInput">
+                        </div>
+
+                        <div class="home-add">选择操作</div>
+
+                        <div class="operation-options">
+                            <div class="operation-option">
+                                <input class="home-form-check-input" type="radio" name="operation"
+                                       id="objectDetectionRadio" value="objectDetection">
+                                <i class="fas fa-bug operation-icon"></i>
+                                <label class="operation-label" for="objectDetectionRadio">病虫害识别</label>
+                            </div>
+
+                            <div class="operation-option">
+                                <input class="home-form-check-input" type="radio" name="operation"
+                                       id="objectTrackingRadio" value="objectTracking">
+                                <i class="fas fa-list-ol operation-icon"></i>
+                                <label class="operation-label" for="objectTrackingRadio">病虫害计数</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="home-uploadButton" disabled>
+                            <i class="fas fa-upload"></i> 上传处理
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="main-content">
+                <!-- 图片预览 -->
+                <div id="home-previewContainer">
+                    <div class="preview-title">图片预览</div>
+                    <div class="preview-frame">
+                        <img class="home-img" id="previewImage" alt="Preview Image">
+                    </div>
+                </div>
+
+                <!-- 图片对比 -->
+                <div class="image-comparison">
+                    <!-- 原始图片 -->
+                    <div class="image-container">
+                        <div class="image-title">原始图片</div>
+                        <div class="image-frame">
+                            {% if original_image %}
+                                <img class="home-img" src="data:image/jpeg;base64,{{ original_image }}"
+                                     alt="Original Image">
+                            {% else %}
+                                <div class="text-muted">暂无图片</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- 箭头 -->
+                    <div class="arrow-container">
+                        <i class="fas fa-arrow-right arrow-icon"></i>
+                    </div>
+
+                    <!-- 处理后的图片 -->
+                    <div class="image-container">
+                        <div class="image-title">处理图片</div>
+                        <div class="image-frame">
+                            {% if processed_image %}
+                                <img class="home-img" src="data:image/jpeg;base64,{{ processed_image }}"
+                                     alt="Processed Image">
+                            {% else %}
+                                <div class="text-muted">等待处理</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 专家建议 -->
+                <div class="expert-advice">
+                    <div class="advice-title">
+                        <i class="fas fa-leaf"></i> 专家建议
+                    </div>
+                    <div class="advice-content">
+                        {% if tips %}
+                            {{ tips }}
+                        {% else %}
+                            <div class="text-center text-muted">
+                                <i class="fas fa-info-circle"></i> 上传图片并选择操作后，将显示专家建议
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 操作选择事件
+            document.getElementById('objectDetectionRadio').addEventListener('change', function() {
+                document.getElementById('operationInput').value = 'objectDetection';
+                checkUploadButtonStatus();
+            });
+
+            document.getElementById('objectTrackingRadio').addEventListener('change', function() {
+                document.getElementById('operationInput').value = 'objectTracking';
+                checkUploadButtonStatus();
+            });
+
+            // 图片选择事件
+            document.getElementById('imageInput').addEventListener('change', function(event) {
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('previewImage').src = e.target.result;
+                        document.getElementById('home-previewContainer').style.display = 'block';
+                        checkUploadButtonStatus();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // 检查上传按钮状态
+            function checkUploadButtonStatus() {
+                var operationSelected = document.querySelector('input[name="operation"]:checked');
+                var fileSelected = document.getElementById('imageInput').files.length > 0;
+
+                if (operationSelected && fileSelected) {
+                    document.getElementById('home-uploadButton').disabled = false;
+                } else {
+                    document.getElementById('home-uploadButton').disabled = true;
+                }
+            }
+
+            // 上传按钮点击事件
+            document.getElementById("home-uploadButton").addEventListener("click", function() {
+                // 创建弹框
+                var alertBox = document.createElement("div");
+                alertBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 图片处理中，请稍候...';
+                alertBox.classList.add("home-alert-box");
+
+                // 添加到页面
+                document.body.appendChild(alertBox);
+
+                // 触发重绘以应用过渡效果
+                alertBox.offsetHeight;
+
+                // 弹框缓慢出现
+                alertBox.classList.add("home-show");
+
+                // 3秒后移除弹框
+                setTimeout(function() {
+                    // 弹框缓慢消失
+                    alertBox.classList.remove("home-show");
+
+                    // 等待过渡效果完成后移除弹框
+                    setTimeout(function() {
+                        if (document.body.contains(alertBox)) {
+                            document.body.removeChild(alertBox);
+                        }
+                    }, 500);
+                }, 3000);
+            });
+
+            // 初始化检查按钮状态
+            checkUploadButtonStatus();
+        });
+    </script>
+{% endblock %}

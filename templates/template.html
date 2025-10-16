@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>数据可视化</title>
+    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/siderMenu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/parkInfo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/feedBack.css' %}">
+    <link rel="stylesheet" href="{% static 'css/weather.css' %}">
+    <link rel="stylesheet" href="{% static 'css/control.css' %}">
+    <link rel="stylesheet" href="{% static 'css/screen.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lineIcon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lineChart.css' %}">
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script>
+        $(function () {
+            $('.myscroll').myScroll({
+                speed: 60, //数值越大，速度越慢
+                rowHeight: 38 //li的高度
+            });
+        });
+
+        $(document).ready(function () {
+            var whei = $(window).width()
+            $("html").css({fontSize: whei / 22});
+            $(window).resize(function () {
+                var whei = $(window).width();
+                $("html").css({fontSize: whei / 22})
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="main">
+    <div class="header">
+        <div class="header-left fl" id="time"></div>
+        <div class="header-center fl">
+            <div class="header-title">
+                基于知识蒸馏的轻量化农业种植平台
+            </div>
+            <div class="header-img"></div>
+        </div>
+        <div class="header-right fl"></div>
+        <div class="header-bottom fl"></div>
+
+    </div>
+
+    <div class="body-box">
+
+        <!-- 第三行数据 -->
+        <div class="sider-menu">
+            <div class="sidebar">
+                <div class="logo-details">
+                    <i class='bx bx-world'></i>
+                    <span class="logo_name">智慧园区</span>
+                </div>
+                <ul class="nav-links">
+                    <!-- <li>
+                        <a href="#">
+                            <i class='bx bx-grid-alt'></i>
+                            <span class="link_name">Dashboard</span>
+                        </a>
+                    </li> -->
+
+                    <li>
+                        <div class="iocn-link">
+                            <a href="/">
+                                <i class='bx bxs-home'></i>
+                                <span class="link_name">主页</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="iocn-link">
+                            <a href="#">
+                                <i class='bx bx-camera'></i>
+                                <span class="link_name">病虫害识别</span>
+                            </a>
+                            <i class='bx bxs-chevron-down arrow'></i>
+                        </div>
+                        <ul class="sub-menu">
+                            <li><a class="link_name" href="#"></a></li>
+                            <li><a href="/ImageDetectionAndCounting/">本地图片识别</a></li>
+                            <li><a href="/PhotoDetectionAndRecognition/">现场采集识别</a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/VideoTrackingCount/">
+                            <i class='bx bx-video'></i>
+                            <span class="link_name">视频跟踪检测计数</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="#">视频跟踪检测计数</a></li>
+                        </ul>
+                    </li>
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <i class='bx bx-line-chart'></i>#}
+{#                            <span class="link_name">图表分析</span>#}
+{#                        </a>#}
+{#                        <ul class="sub-menu blank">#}
+{#                            <li><a class="link_name" href="#">图表分析</a></li>#}
+{#                        </ul>#}
+{#                    </li>#}
+                    <li>
+                        <a href="/AiAgricultureExpertsAnswerQuestions/">
+                            <i class='bx bxs-conversation'></i>
+                            <span class="link_name">智慧问答</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="#">智慧问答</a></li>
+                        </ul>
+                    </li>
+
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <i class='bx bx-cog'></i>#}
+{#                            <span class="link_name">设置</span>#}
+{#                        </a>#}
+{#                        <ul class="sub-menu blank">#}
+{#                            <li><a class="link_name" href="#">设置</a></li>#}
+{#                        </ul>#}
+{#                    </li>#}
+                    <li>
+<!--                        <div class="profile-details">-->
+<!--                            <div class="profile-content">-->
+<!--                                <img src="{% static 'images/计设logo.png' %}" alt="profile">-->
+<!--                            </div>-->
+<!--                            <div class="name-job">-->
+<!--                                <div class="profile_name">全国大学生计算机设计大赛</div>-->
+<!--{#                                <div class="job">计算机设计大赛</div>#}-->
+<!--                            </div>-->
+<!--                            <i class='bx bx-log-out'></i>-->
+<!--                        </div>-->
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+
+            {% block main_body %}
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/echarts.min.js' %}"></script>
+<script src="{% static 'js/fontscroll.js' %}"></script>
+
+<script>
+    //顶部时间
+    function getTime() {
+        var myDate = new Date();
+        var myYear = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
+        var myMonth = myDate.getMonth() + 1; //获取当前月份(0-11,0代表1月)
+        var myToday = myDate.getDate(); //获取当前日(1-31)
+        var myDay = myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+        var myHour = myDate.getHours(); //获取当前小时数(0-23)
+        var myMinute = myDate.getMinutes(); //获取当前分钟数(0-59)
+        var mySecond = myDate.getSeconds(); //获取当前秒数(0-59)
+        var week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        var nowTime;
+
+        nowTime = myYear + '-' + fillZero(myMonth) + '-' + fillZero(myToday) + '&nbsp;&nbsp;' + fillZero(myHour) + ':' + fillZero(myMinute) + ':' + fillZero(mySecond) + '&nbsp;&nbsp;' + week[myDay] + '&nbsp;&nbsp;';
+        //console.log(nowTime);
+        $('#time').html(nowTime);
+    };
+
+    function fillZero(str) {
+        var realNum;
+        if (str < 10) {
+            realNum = '0' + str;
+        } else {
+            realNum = str;
+        }
+        return realNum;
+    }
+
+    setInterval(getTime, 1000);
+
+    // sider
+    let arrow = document.querySelectorAll(".arrow");
+    for (var i = 0; i < arrow.length; i++) {
+        arrow[i].addEventListener("click", (e) => {
+            let arrowParent = e.target.parentElement.parentElement;
+            arrowParent.classList.toggle("showMenu");
+        });
+    }
+
+</script>
+
+{% block extra_js %}
+
+{% endblock %}
+
+</body>
+
+</html>

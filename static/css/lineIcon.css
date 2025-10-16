@@ -1,0 +1,35 @@
+.icon-boxs {
+    width: 95%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.icon_1,.icon_2,.icon_3,.icon_4,.icon_5,.icon_6,.icon_7,.icon_8 {
+    width: 9%;
+    height: 100%;
+}
+
+.icon-img {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.icon-info {
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    font-size: 13px;
+}
+
+
+.icon-img div {
+    width: fit-content;
+    height: fit-content;
+}

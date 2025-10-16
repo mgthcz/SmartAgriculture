@@ -1,0 +1,49 @@
+.info-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-left: 20px;
+  }
+  
+  .info-tag {
+    width: 100%;
+    height: 10%;
+    margin-left: 10px;
+    margin-top: 12px;
+    font-size: 18px;
+    position: relative;
+  }
+  .dv-1
+  {
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    top: -10px;
+    left: 80px;
+  }
+  .dv-2
+  {
+    width: fit-content;
+    height: fit-content;
+    margin-top: 10px;
+  }
+  .info-ul {
+    width: 100%;
+    height: 90%;
+
+  }
+  
+  .parkinfo-ul li {
+    margin-top: 10px;
+    list-style: none;
+    height: 25px;
+    line-height: 25px;
+    height: fit-content;
+  }
+  
+  .li-span {
+    font-size: 16px;
+    margin-left: 15px;
+  }

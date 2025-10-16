@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>注册</title>
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+	</head>
+	<body>
+		<div class="tit">智慧农业种植辅助平台</div>
+		<!-- 主体 -->
+		<form action="" class="center">
+			<div class="register">
+				<!-- 登录注册 -->
+				<div class="regtop">
+					<div onclick="toiogin()" class="topleft">登录</div>
+					<div onclick="toindex()" class="topright">注册</div>
+				</div>
+				<!-- 输入框 -->
+				<div class="regmain www">
+					<hr>
+					<!-- 账号 -->
+					<div class="account">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:&nbsp;&nbsp;
+					<input type="text" class="srk" name="account" placeholder="请输入你的账号" />
+					</div>
+					<!-- 密码 -->
+					<div class="password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;&nbsp;
+					<input type="text" class="srk" name="password" placeholder="请输入你的密码">
+					</div>
+					<!-- 确认密码 -->
+					<div class="password">确认密码:&nbsp;&nbsp;
+					<input type="text" class="srk" name="repassword" placeholder="请确认你的密码">
+					</div>
+					<!-- 手机号 -->
+					<div class="tel">手&nbsp;&nbsp;机&nbsp;&nbsp;号:&nbsp;&nbsp;
+					<input type="text" class="srk" name="tel" placeholder="请填写正确的手机号">
+					</div>
+
+					<!-- 验证码 -->
+					<div class="checkcode">
+						<!-- 文字 -->
+						<div class="checkleft">验&nbsp;&nbsp;证&nbsp;&nbsp;码:&nbsp;&nbsp;
+						<input type="text" class="yzm"name="checkleft" placeholder="请输入验证码">
+						</div>
+						<!-- 图片 -->
+						<div class="checkright"><img src="img/yanzhengma.jpg" alt="">
+						</div>
+
+						<div class="clear"></div>
+					</div>
+				</div>
+
+				<!-- 注册按钮 -->
+				<div style="text-align:center" class="btn">
+					<input onclick="tologintow()" type="button" id="submit" value="注册" />
+				</div>
+				<br>
+
+			</div>
+		</form>
+	</body>
+</html>
+<script>
+		function toindex(){
+			location.href = 'signin.html';
+		}
+
+		function tologintow(){
+			location.href = 'login.html';
+		}
+
+		function toiogin(){
+			location.href = 'login.html';
+		}
+</script>

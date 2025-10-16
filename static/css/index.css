@@ -1,0 +1,135 @@
+/*大屏*/
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #222;
+    font-family: "微软雅黑";
+    background-color: #f8f8f8;
+    background: url("../images/bg01.png") no-repeat;
+    background-size: cover;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    color: #d3d6dd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+.allnav {
+    height: 100%;
+}
+
+/*谷哥滚动条样式*/
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    position: absolute
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #5bc0de
+}
+
+::-webkit-scrollbar-track {
+    background-color: #ddd
+}
+
+/***/
+.allnav {
+    height: 100%;
+}
+
+/*
+头部*/
+.header {
+    width: 100%;
+    height: 10%;
+    /*background: red;*/
+
+}
+
+.header .header-left {
+    width: 25%;
+    height: 1.05rem;
+    color: white;
+    /*    border: 1px solid green;*/
+    text-align: center;
+    line-height: 1.05rem;
+}
+
+.header .header-center {
+    width: 50%;
+    height: 1.05rem;
+    /*border: 1px solid red;*/
+    /*    background: url("../images/head.gif") no-repeat;
+    background-size: 100% 100%;*/
+    position: relative;
+}
+
+.header .header-center .header-title {
+    text-align: center;
+    color: #ffffff;
+    font-size: .4rem;
+    text-shadow: 0 0 .3rem #00d8ff;
+    line-height: 1.05rem;
+}
+
+.header .header-img {
+    background: url("../images/head.gif") no-repeat center center;
+    background-size: 100%;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: .4rem;
+}
+
+.header .header-right {
+    width: 25%;
+    height: 1.05rem;
+    /*border: 1px solid gold;*/
+}
+
+.header .header-bottom {
+    width: calc(100% - .4rem);
+    height: .16rem;
+    background: url("../images/header.png") no-repeat;
+    background-size: calc(100% - .2rem) 100%;
+    padding: 0 .2rem;
+    margin-left: .3rem;
+
+}

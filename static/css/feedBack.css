@@ -1,0 +1,167 @@
+.info-div {
+    width: 80%;
+    height: 100%;
+}
+
+.select-box {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.dropdown_select {
+    font-weight: 500;
+    font-size: 13px;
+    width: 20%;
+    height: 50%;
+    padding: 8px;
+    border-radius: 18px;
+    background-color: transparent;
+    /* 去除背景颜色 */
+    color: white;
+    /* 设置字体颜色为白色 */
+}
+
+#dropdown-select option {
+    font-weight: 500;
+    font-size: 13px;
+    color: black;
+    /* 设置选项的字体颜色 */
+    background-color: #9ab6cc;
+}
+
+
+.input-box {
+    width: 30%;
+    display: flex;
+
+    align-items: center;
+}
+
+.input-box span {
+    margin-left: 10px;
+    font-size: 13px;
+}
+
+.text_input {
+    width: 60%;
+    height: 50%;
+    padding: 8px;
+    border-radius: 18px;
+    background-color: transparent;
+    /* 去除背景颜色 */
+    color: white;
+    /* 设置字体颜色为白色 */
+    border: 1px #c7ccd5 solid;
+}
+
+
+.select-button {
+    /* 相对定位 */
+    position: relative;
+    font-size: 12px;
+    width: 16%;
+    height: 50%;
+    line-height: 16%;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    /* 圆角属性 */
+    border-radius: 50px;
+    /* 背景渐变色 */
+    background-image: linear-gradient(to right, #03a9f4, #f441a5, #09a8f4);
+    /* 背景渐变色大小 */
+    background-size: 400%;
+    z-index: 1;
+}
+
+/* 下面设计 发光效果 */
+.select-button::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+    border-radius: 50px;
+    /* 背景渐变色 */
+    background-image: linear-gradient(to right, #03a9f4, #f441a5, #09a8f4, 0.3);
+    /* 背景渐变色大小 */
+    background-size: 400%;
+    /* 元素的位置 底层或者顶层  -值表示底层 + 值表示顶层 */
+    z-index: -1;
+    /* 设置模糊度 显示发光效果 */
+    filter: blur(12px);
+}
+
+.select-button:hover {
+    /* 动画 名称 时间 infinite 是无限次播放 */
+    animation: sun 8s infinite;
+}
+
+.select-button:hover::before {
+    animation: sun 8s infinite;
+}
+
+@keyframes sun {
+    100% {
+        /* 背景位置 */
+        background-position: -400% 0;
+    }
+}
+
+
+.scrollable-table {
+    width: 100%;
+    height: 80%;
+    overflow-y: scroll;
+}
+
+.scrollable-table table {
+    width: 100%;
+    /* 如果需要，可以定义整个表格的宽度 */
+    border-collapse: collapse;
+    /* 为了更好的表格布局 */
+}
+
+.scrollable-table table th,
+.scrollable-table table td {
+    padding: 8px;
+    /* 为了增加单元格内的空间 */
+    text-align: left;
+    /* 文字左对齐 */
+
+}
+
+
+.scrollable-table table th:nth-child(1),
+.scrollable-table table td:nth-child(1) {
+    width: 65%;
+    /* 第二列的宽度 */
+}
+
+.scrollable-table table th:nth-child(2),
+.scrollable-table table td:nth-child(2) {
+    width: 20%;
+    /* 第三列的宽度 */
+}
+
+.scrollable-table table th:nth-child(3),
+.scrollable-table table td:nth-child(3) {
+    width: 15%;
+    /* 第四列的宽度 */
+}
+
+.scrollable-table table tr {
+    font-size: 14px;
+    /* 表格行字体大小 */
+}
+
+.scrollable-table table tr:first-child {
+    font-size: 16px;
+    /* 标题行字体大小 */
+}

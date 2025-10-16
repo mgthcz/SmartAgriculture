@@ -1,0 +1,60 @@
+.chart-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+
+
+
+.chart-wrapper {
+    width: 819px;
+    height: 203px;
+    margin-top: 20px;
+    display: none;
+}
+
+.chart-wrapper.active {
+    display: block;
+}
+
+.icon-button {
+    display: inline-block;
+    width: 30px;
+    /* 或者您想要的任何大小 */
+    height: 30px;
+    /* 或者您想要的任何大小 */
+    line-height: 30px;
+    /* 与高度相同，用于垂直居中图标 */
+    text-align: center;
+    /* 水平居中图标 */
+    border: none;
+    /* 移除边框 */
+    color: white;
+    /* 图标颜色 */
+    border-radius: 50%;
+    /* 圆形按钮 */
+    cursor: pointer;
+    /* 鼠标悬停时变为手形图标 */
+    transition: background-color 0.3s ease;
+    /* 背景色过渡效果 */
+    font-size: 31px;
+    /* 图标大小 */
+    outline: none;
+    /* 移除点击时的轮廓 */
+    position: absolute;
+    right: 36px;
+    top: 40px;
+}
+
+.icon-button:hover {
+    background-color: #2980b9;
+    /* 鼠标悬停时的背景色 */
+}
+
+.icon-button:active {
+    background-color: #20638f;
+    /* 点击时的背景色 */
+}

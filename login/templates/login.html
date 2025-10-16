@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <script type="text/javascript">
+        function getValue(id) {
+            return document.getElementById(id).value;
+            // 查找元素
+        }
+
+        function tologin() {
+            if (getValue('uname') == "1" && getValue('pwd') == "123") {
+                return true;
+            } else {
+                alert("登录名或密码错误！")
+                // 警告框
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="tit">智慧农业种植辅助平台</div>
+<!-- 主体 -->
+<form action="" class="center">
+    <div class="register">
+        <!-- 登录注册 -->
+        <div class="regtop">
+            <div class="topleft">登录</div>
+            <div onclick="toindex()" class="topright">注册</div>
+        </div>
+        <!-- 输入框 -->
+        <div class="regmain www">
+            <hr>
+            <!-- 账号 -->
+            <div class="account">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:&nbsp;&nbsp;
+                <input type="text" id="uname" class="srk" name="account" placeholder="请输入你的账号"/>
+            </div>
+            <!-- 密码 -->
+            <div class="password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;&nbsp;
+                <input type="text" id="pwd" class="srk" name="password" placeholder="请输入你的密码">
+
+            </div>
+
+
+            <!-- 登录按钮 -->
+            <div style="text-align:center" class="btn">
+                <input onclick="tologin()" type="button" id="login" value="登录"/>
+            </div>
+            <br>
+        </div>
+        </div>
+</form>
+
+</body>
+</html>
+
+<!-- 跳转界面 -->
+<script>
+
+    function toindex() {
+        location.href = 'index.html';
+    }
+</script>

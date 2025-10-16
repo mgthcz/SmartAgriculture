@@ -1,0 +1,497 @@
+{% extends "template.html" %}
+
+{% block title %}
+    AI智慧问答
+{% endblock %}
+
+{% block extra_css %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .AI_main-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .AI_container {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            height: 100vh;
+        }
+
+        #AI_user-input {
+            flex: 1;
+            margin-left: 0px;
+        }
+
+        #AI_send-btn {
+            margin-left: 10px;
+        }
+
+        /* 样式容器 */
+        .AI_chat-container {
+            overflow-y: auto;
+            width: 1370px;
+            max-width: 100%;
+            max-height: 650px;
+            padding: 35px;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8fdff 0%, #e6f7ff 100%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 3px solid #022244;
+            flex: 1;
+            word-wrap: break-word;
+        }
+
+        /* 对话容器 */
+        .message-AI_container {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 用户消息样式 */
+        .AI_user-message {
+            margin-left: auto;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 18px;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 70%;
+        }
+
+        /* 机器人消息样式 */
+        .AI_bot-message {
+            margin-right: auto;
+            background: white;
+            color: #333;
+            padding: 12px 18px;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            max-width: 70%;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        /* 打字机光标 */
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: #4CAF50;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* 头像样式 */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .bot-avatar {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+        }
+
+        /* 输入容器样式 */
+        .input-AI_container {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 输入框样式 */
+        .input-AI_container input[type="text"] {
+            flex: 1;
+            margin-left: 3%;
+            width: 950px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .input-AI_container input[type="text"]:focus {
+            border-color: #022244;
+            box-shadow: 0 0 0 2px rgba(2, 34, 68, 0.1);
+            outline: none;
+        }
+
+        /* 发送按钮样式 */
+        .input-AI_container button {
+            margin-left: 1%;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #022244 0%, #034078 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            min-width: 100px;
+        }
+
+        .input-AI_container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-AI_container button:active {
+            transform: translateY(0);
+        }
+
+        /* 语音控制按钮 */
+        #voice-toggle {
+            margin-left: 10px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            min-width: 130px;
+        }
+
+        #voice-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .AI_header {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            max-width: 100%;
+            border: 2px solid #022244;
+            background: linear-gradient(135deg, #021c37 0%, #034078 100%);
+            text-align: center;
+            line-height: 40px;
+            font-size: 55px;
+            font-weight: 1000;
+            color: white;
+            letter-spacing: 60px;
+            z-index: 999;
+        }
+
+        /* 更新弹框样式 */
+        .alert-box {
+            position: fixed;
+            color: white;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            transition: top 0.5s ease;
+            font-weight: bold;
+        }
+
+        .show {
+            top: 100px;
+        }
+    </style>
+{% endblock %}
+
+{% block main_body %}
+    <div id="AI_body">
+        <div class="AI_container">
+            <div class="AI_main-box">
+                <div class="AI_chat-container" id="chat-window"></div>
+
+                <div id="AI_chat-container" class="input-AI_container">
+                    <input type="text" id="AI_user-input" placeholder="请输入您的问题...">
+                    <button id="AI_send-btn">发送</button>
+                    <button id="voice-toggle">🔊 语音朗读</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% csrf_token %}
+        <script>
+            window.onload = function () {
+                var welcome = $('<div class="message-AI_container"></div>');
+                var botAvatar = $('<div class="avatar bot-avatar">成</div>');
+                var botMessage = $('<div class="AI_bot-message"></div>').text("欢迎使用AI农业专家智慧问答，您的专属AI助手小成解答您遇到的任何问题和疑惑，快来试试叭！");
+
+                welcome.append(botAvatar);
+                welcome.append(botMessage);
+                $('#chat-window').append(welcome);
+                scrollToBottom();
+            }
+
+            var csrfToken = "{{ csrf_token }}";
+            var voiceEnabled = true;
+            var currentTyping = null;
+            var currentUtterance = null;
+
+            // 打字机效果函数
+            function typewriterEffect(element, text, onComplete) {
+                // 清除任何正在进行的打字效果
+                if (currentTyping) {
+                    clearTimeout(currentTyping);
+                }
+
+                // 设置语音参数 - 稍微快一点
+                if (voiceEnabled) {
+                    speakText(text, element);
+                }
+
+                // 开始打字效果
+                var i = 0;
+                element.text(''); // 清空元素内容
+
+                function type() {
+                    if (i < text.length) {
+                        element.append(text.charAt(i));
+                        i++;
+                        currentTyping = setTimeout(type, 50); // 调整打字速度
+                    } else if (onComplete) {
+                        onComplete();
+                    }
+                }
+
+                type();
+            }
+
+            // 语音合成函数 - 修改为与打字机效果同步
+            function speakText(text, element) {
+                if ('speechSynthesis' in window) {
+                    // 停止当前正在播放的语音
+                    window.speechSynthesis.cancel();
+
+                    // 创建新的语音实例
+                    currentUtterance = new SpeechSynthesisUtterance(text);
+
+                    // 设置语音参数 - 稍微快一点
+                    currentUtterance.rate = 1.2;    // 增加语速
+                    currentUtterance.pitch = 1.0;
+                    currentUtterance.volume = 1.0;
+                    currentUtterance.lang = 'zh-CN';
+
+                    // 可选：选择语音（如果有多个语音可用）
+                    var voices = speechSynthesis.getVoices();
+                    var chineseVoice = voices.find(voice => voice.lang.includes('zh') || voice.lang.includes('CN'));
+                    if (chineseVoice) {
+                        currentUtterance.voice = chineseVoice;
+                    }
+
+                    // 播放语音
+                    window.speechSynthesis.speak(currentUtterance);
+
+                    // 语音开始播放时添加光标
+                    currentUtterance.onstart = function () {
+                        element.append('<span class="typing-cursor"></span>');
+                    };
+
+                    // 语音结束时移除光标
+                    currentUtterance.onend = function () {
+                        $('.typing-cursor').remove();
+                        console.log('语音播放结束');
+                    };
+
+                    currentUtterance.onerror = function (event) {
+                        console.error('语音播放错误:', event);
+                        $('.typing-cursor').remove();
+                    };
+
+                } else {
+                    console.warn('您的浏览器不支持语音合成功能');
+                }
+            }
+
+            // 停止语音函数
+            function stopSpeaking() {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    $('.typing-cursor').remove();
+                }
+            }
+
+            $(document).ready(function () {
+                // 语音控制按钮事件处理
+                $('#voice-toggle').click(function () {
+                    voiceEnabled = !voiceEnabled;
+                    if (voiceEnabled) {
+                        $(this).text('🔊 语音朗读').css('background', 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)');
+                    } else {
+                        stopSpeaking();
+                        $(this).text('🔇 语音关闭').css('background', 'linear-gradient(135deg, #f44336 0%, #d32f2f 100%)');
+                    }
+                });
+
+                $('#AI_send-btn').click(function () {
+                    var userInput = $('#AI_user-input').val();
+                    if (userInput.trim() === '') {
+                        return;
+                    }
+                    sendMessage();
+                    alertBox();
+                });
+
+                $('#AI_user-input').keypress(function (event) {
+                    var userInput = $('#AI_user-input').val();
+                    if (userInput.trim() === '') {
+                        return;
+                    }
+                    if (event.keyCode === 13) {
+                        sendMessage();
+                        alertBox();
+                    }
+                });
+
+                function sendMessage() {
+                    var userInput = $('#AI_user-input').val();
+                    if (userInput.trim() === '') {
+                        return;
+                    }
+
+                    // 停止当前正在进行的打字和语音
+                    if (currentTyping) {
+                        clearTimeout(currentTyping);
+                    }
+                    stopSpeaking();
+
+                    // 显示用户消息
+                    var userMessageContainer = $('<div class="message-AI_container"></div>');
+                    var userAvatar = $('<div class="avatar user-avatar">您</div>');
+                    var userMessage = $('<div class="AI_user-message"></div>').text(userInput);
+
+                    userMessageContainer.append(userAvatar);
+                    userMessageContainer.append(userMessage);
+                    $('#chat-window').append(userMessageContainer);
+
+                    $('#AI_user-input').val('');
+                    scrollToBottom();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/AiAgricultureExpertsAnswerQuestions/',
+                        data: {
+                            'user_input': "你作为资深农业专家，需在100字内给出专业、精准、实用的解决方案。要求直击问题本质，语言精炼。注意你只能认真回答农业相关问题" + userInput,
+                            'csrfmiddlewaretoken': csrfToken
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var answer = data.answer;
+
+                            // 显示AI回复消息
+                            var botMessageContainer = $('<div class="message-AI_container"></div>');
+                            var botAvatar = $('<div class="avatar bot-avatar">成</div>');
+                            var botMessageElement = $('<div class="AI_bot-message"></div>');
+
+                            botMessageContainer.append(botAvatar);
+                            botMessageContainer.append(botMessageElement);
+                            $('#chat-window').append(botMessageContainer);
+
+                            // 使用打字机效果显示回复，并同步语音
+                            typewriterEffect(botMessageElement, answer, function () {
+                                // 打字完成后的回调
+                                scrollToBottom();
+                            });
+
+                            // 初始滚动
+                            scrollToBottom();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('请求失败:', error);
+                            var errorMessageContainer = $('<div class="message-AI_container"></div>');
+                            var botAvatar = $('<div class="avatar bot-avatar">佳乐</div>');
+                            var errorMessage = $('<div class="AI_bot-message"></div>').text('抱歉，请求失败，请稍后重试');
+
+                            errorMessageContainer.append(botAvatar);
+                            errorMessageContainer.append(errorMessage);
+                            $('#chat-window').append(errorMessageContainer);
+                            scrollToBottom();
+                        }
+                    });
+                }
+
+                function scrollToBottom() {
+                    var chatWindow = $('#chat-window');
+                    chatWindow.scrollTop(chatWindow[0].scrollHeight);
+                }
+            });
+
+            function alertBox() {
+                var alertBox = document.createElement("div");
+                alertBox.innerHTML = "小成为您解惑中，请稍后！";
+                alertBox.classList.add("alert-box");
+
+                document.body.appendChild(alertBox);
+                alertBox.offsetHeight;
+                alertBox.classList.add("show");
+
+                setTimeout(function () {
+                    alertBox.classList.remove("show");
+                    setTimeout(function () {
+                        if (document.body.contains(alertBox)) {
+                            document.body.removeChild(alertBox);
+                        }
+                    }, 500);
+                }, 3000);
+            };
+        </script>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}
